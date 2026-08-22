@@ -1,0 +1,1446 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>KAVACH — Autonomous Defence Systems. Engineered Different.</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;600;700;800&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet"/>
+<style>
+:root{
+  --bg:#ffffff;--bg2:#f7f7f7;--bg3:#ededed;--card:#ffffff;--border:#dcdcdc;--border2:#bdbdbd;
+  --white:#111111;--text:#222222;--muted:#666666;--dim:#888888;
+  --green:#85c93d;--green2:#9be15d;--gdim:#2A5520;
+  --amber:#F0B84B;
+  --sora:'Sora',sans-serif;--inter:'Inter',sans-serif;--mono:'JetBrains Mono',monospace;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;}
+body{background:var(--bg);color:var(--text);font-family:var(--inter);overflow-x:hidden;line-height:1.6;font-size:16px;}
+a{text-decoration:none;color:inherit;}img{display:block;max-width:100%;}ul{list-style:none;}
+button{font-family:var(--inter);cursor:pointer;border:none;outline:none;}
+::-webkit-scrollbar{width:5px;}::-webkit-scrollbar-track{background:var(--bg);}::-webkit-scrollbar-thumb{background:var(--border2);border-radius:3px;}
+.dot{width:8px;height:8px;border-radius:50%;display:inline-block;flex-shrink:0;}
+.dot.g{background:var(--green);box-shadow:0 0 6px var(--green);animation:dp 2s infinite;}
+.dot.a{background:var(--amber);}
+.dot.d{background:var(--dim);}
+@keyframes dp{0%,100%{box-shadow:0 0 0 0 rgba(155,225,93,.6);}50%{box-shadow:0 0 0 6px rgba(155,225,93,0);}}
+.btn-g{display:inline-flex;align-items:center;gap:.6rem;background:var(--green);color:#000;padding:.9rem 2rem;font-family:var(--sora);font-size:.92rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;border-radius:2px;transition:background .2s,transform .2s,box-shadow .2s;}
+.btn-g:hover{background:var(--green2);transform:translateY(-2px);box-shadow:0 8px 24px rgba(155,225,93,.25);}
+.btn-o{display:inline-flex;align-items:center;gap:.6rem;padding:.9rem 2rem;background:rgba(255,255,255,.85);border:3px solid #111;color:#111;font-family:var(--sora);font-size:.92rem;font-weight:600;}
+.btn-o:hover{background:#111;border-color:#111;color:#85c93d;transform:translateY(-2px);}
+.btn-o svg{stroke:currentColor;}
+.btn-o:hover svg{stroke:#85c93d;}
+.btn-sm{display:inline-flex;align-items:center;gap:.5rem;background:var(--green);color:#000;padding:.65rem 1.4rem;font-family:var(--sora);font-size:.78rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;border-radius:2px;transition:background .2s;}
+.btn-sm:hover{background:var(--green2);}
+.slabel{font-family:var(--mono);font-size:.82rem;letter-spacing:.22em;text-transform:uppercase;color:var(--green);display:flex;align-items:center;gap:.7rem;margin-bottom:1.1rem;}
+.slabel::before{content:'';width:30px;height:1.5px;background:var(--green);}
+.stitle{font-family:var(--sora);font-size:clamp(2.4rem,4.5vw,3.6rem);font-weight:800;color:var(--white);line-height:1.05;letter-spacing:-.02em;margin-bottom:1.1rem;}
+.stitle .g{color:var(--green);}
+.ssub{color:var(--muted);font-size:1.1rem;line-height:1.85;max-width:600px;}
+.rv{opacity:0;transform:translateY(40px);transition:opacity .8s ease,transform .8s ease;}
+.rv.on{opacity:1;transform:none;}
+.rl{opacity:0;transform:translateX(-40px);transition:opacity .8s ease,transform .8s ease;}
+.rl.on{opacity:1;transform:none;}
+.rr{opacity:0;transform:translateX(40px);transition:opacity .8s ease,transform .8s ease;}
+.rr.on{opacity:1;transform:none;}
+
+/* NAV */
+#nav{position:fixed;inset:0 0 auto;z-index:900;padding:1rem 5%;display:flex;align-items:center;justify-content:space-between;transition:background .35s,border-color .35s;border-bottom:1px solid transparent;}
+#nav.stuck{background:rgba(255,255,255,.95);backdrop-filter:blur(20px);border-color:#ddd;}
+.n-logo{display:flex;align-items:center;gap:.8rem;}
+.n-shield{width:40px;height:40px;}
+.n-words strong{font-family:var(--sora);font-size:1.2rem;font-weight:800;letter-spacing:.12em;color:var(--white);display:block;}
+.n-words small{font-family:var(--mono);font-size:.65rem;letter-spacing:.2em;text-transform:uppercase;color:var(--green);}
+.n-links{display:flex;gap:2.2rem;}
+.n-links a{font-family:var(--sora);font-size:.85rem;letter-spacing:.1em;text-transform:uppercase;color:#111;font-weight:600;transition:color .2s;font-weight:500;}
+.n-links a:hover{color:var(--white);}
+.n-right{display:flex;align-items:center;gap:1.4rem;}
+.n-status{display:flex;align-items:center;gap:.5rem;font-family:var(--mono);font-size:.75rem;letter-spacing:.14em;text-transform:uppercase;color:var(--green);}
+.n-ham{display:none;flex-direction:column;gap:5px;cursor:pointer;background:none;border:none;padding:.3rem;}
+.n-ham span{width:24px;height:2px;background:var(--muted);border-radius:1px;display:block;transition:.3s;}
+
+/* HERO */
+#hero{position:relative;min-height:100vh;display:flex;align-items:flex-end;overflow:hidden;}
+.h-bg{position:absolute;inset:0;}
+.h-bg img{width:100%;height:100%;object-fit:cover;}
+.h-bg::after{content:'';position:absolute;inset:0;background:linear-gradient(to right,rgba(255,255,255,.65) 0%,rgba(255,255,255,.45) 25%,rgba(255,255,255,.20) 50%,rgba(255,255,255,.05) 75%,rgba(255,255,255,0) 100%);}
+.h-grid{position:absolute;inset:0;z-index:1;background-image:linear-gradient(rgba(155,225,93,.03) 1px,transparent 1px),linear-gradient(90deg,rgba(155,225,93,.03) 1px,transparent 1px);background-size:60px 60px;pointer-events:none;}
+.h-inner{position:relative;z-index:2;width:100%;padding:0 5% 6rem;display:flex;align-items:flex-end;padding-top:120px;}
+.h-left{max-width:720px;}
+.h-eye{display:flex;align-items:center;gap:.8rem;margin-bottom:1.8rem;animation:fadeUp .7s ease both;}
+.h-eye-line{width:36px;height:2px;background:var(--green);}
+.h-eye-txt{font-family:var(--mono);font-size:.82rem;letter-spacing:.2em;text-transform:uppercase;color:var(--green);}
+.h-title{animation:fadeUp .7s .12s ease both;}
+.h-title h1{font-family:var(--sora);font-size:clamp(3.5rem,8vw,7rem);font-weight:800;line-height:.92;letter-spacing:-.03em;color:#111;}
+.h-title h1 .g{color:var(--green);}
+.h-sub{font-size:1.15rem;color:var(--muted);max-width:560px;line-height:1.85;margin-top:1.5rem;animation:fadeUp .7s .25s ease both;}
+.h-badges{display:flex;gap:1.8rem;flex-wrap:wrap;margin-top:1.8rem;animation:fadeUp .7s .38s ease both;}
+.h-badge{display:flex;align-items:center;gap:.5rem;font-family:var(--mono);font-size:.78rem;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);}
+.h-ctas{display:flex;flex-direction:row;gap:16px;flex-wrap:nowwrap;align-items:center;}
+@keyframes fadeUp{from{opacity:0;transform:translateY(32px);}to{opacity:1;transform:translateY(0);}}
+@keyframes fadeRight{from{opacity:0;transform:translateX(32px);}to{opacity:1;transform:translateX(0);}}
+
+/* HERO RIGHT */
+.h-right{display:flex;flex-direction:column;gap:1.2rem;animation:fadeRight .8s .35s ease both;}
+.hud{background:rgba(10,14,12,.92);border:1px solid var(--border);border-radius:4px;padding:1.4rem 1.6rem;backdrop-filter:blur(16px);position:relative;overflow:hidden;}
+.hud::after{content:'';position:absolute;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,rgba(155,225,93,.6),transparent);animation:scanLine 4s ease-in-out infinite;pointer-events:none;}
+@keyframes scanLine{0%{top:-2px;opacity:0;}5%{opacity:1;}95%{opacity:.5;}100%{top:100%;opacity:0;}}
+.hud-head{font-family:var(--mono);font-size:.72rem;letter-spacing:.2em;text-transform:uppercase;color:var(--green);padding-bottom:.8rem;border-bottom:1px solid var(--border);margin-bottom:.9rem;}
+.hud-row{display:flex;justify-content:space-between;align-items:center;padding:.42rem 0;border-bottom:1px solid rgba(255,255,255,.05);}
+.hud-row:last-child{border-bottom:none;}
+.hud-k{font-family:var(--mono);font-size:.72rem;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);}
+.hud-v{font-family:var(--mono);font-size:.85rem;font-weight:700;color:var(--white);}
+.hud-v.g{color:var(--green);}
+.hud-v.a{color:var(--amber);}
+.hud-dual{display:grid;grid-template-columns:1fr 1fr;}
+.hud-d{padding:1.1rem 1.2rem;text-align:center;}
+.hud-d:first-child{border-right:1px solid var(--border);}
+.hud-d-n{font-family:var(--mono);font-size:1.8rem;font-weight:700;color:var(--white);}
+.hud-d-l{font-family:var(--mono);font-size:.7rem;letter-spacing:.16em;text-transform:uppercase;color:var(--muted);margin-top:.25rem;}
+.radar-box{position:relative;width:100%;max-width:260px;aspect-ratio:1;margin:0 auto;}
+.r-ring{position:absolute;inset:0;border-radius:50%;border:1px solid rgba(155,225,93,.2);}
+.r-ring:nth-child(2){inset:22%;border-color:rgba(155,225,93,.15);}
+.r-ring:nth-child(3){inset:44%;border-color:rgba(155,225,93,.12);}
+.r-ring:nth-child(4){inset:66%;border-color:rgba(155,225,93,.1);}
+.r-ch{position:absolute;inset:0;}
+.r-ch::before,.r-ch::after{content:'';position:absolute;background:rgba(155,225,93,.12);}
+.r-ch::before{top:50%;left:0;right:0;height:1px;}
+.r-ch::after{left:50%;top:0;bottom:0;width:1px;}
+.r-sweep{position:absolute;inset:0;border-radius:50%;overflow:hidden;}
+.r-sweep::after{content:'';position:absolute;top:50%;left:50%;width:50%;height:2px;transform-origin:left;background:linear-gradient(90deg,transparent,rgba(155,225,93,.8));animation:rsweep 3.5s linear infinite;box-shadow:0 0 8px rgba(155,225,93,.5);}
+@keyframes rsweep{from{transform:rotate(0);}to{transform:rotate(360deg);}}
+.r-blip{position:absolute;width:7px;height:7px;border-radius:50%;background:var(--green);box-shadow:0 0 10px var(--green);}
+.r-blip.b1{top:20%;left:62%;animation:blp 3.5s ease-in-out infinite 0s;}
+.r-blip.b2{top:60%;left:70%;animation:blp 3.5s ease-in-out infinite 1.1s;}
+.r-blip.b3{top:70%;left:35%;animation:blp 3.5s ease-in-out infinite 2.3s;}
+.r-blip.b4{top:28%;left:28%;animation:blp 3.5s ease-in-out infinite .7s;}
+@keyframes blp{0%,100%{opacity:0;transform:scale(0);}20%,80%{opacity:1;transform:scale(1);}50%{opacity:.8;transform:scale(2);}}
+.r-label{position:absolute;bottom:-1.8rem;left:50%;transform:translateX(-50%);font-family:var(--mono);font-size:.68rem;letter-spacing:.18em;text-transform:uppercase;color:var(--muted);white-space:nowrap;}
+
+/* TICKER */
+.ticker{background:var(--bg2);border-top:1px solid var(--border);border-bottom:1px solid var(--border);padding:.7rem 0;overflow:hidden;}
+.t-track{display:flex;white-space:nowrap;animation:tickMv 30s linear infinite;}
+.t-item{font-family:var(--mono);font-size:.82rem;letter-spacing:.2em;text-transform:uppercase;color:var(--dim);padding:0 2.8rem;}
+.t-item.hi{color:var(--green);font-weight:700;}
+@keyframes tickMv{from{transform:translateX(0);}to{transform:translateX(-50%);}}
+
+/* ABOUT */
+#about{background:#f7f7f7;padding:8rem 5%;}
+.about-grid{display:grid;grid-template-columns:1fr 1fr;gap:6rem;align-items:center;}
+.about-img-wrap{position:relative;}
+.about-img{width:100%;height:500px;object-fit:cover;border-radius:4px;filter:contrast(1.05);}
+.about-img-ol{position:absolute;inset:0;background:linear-gradient(135deg,rgba(155,225,93,.06),transparent 55%);border-radius:4px;}
+.about-img-wrap::before{content:'';position:absolute;top:-12px;left:-12px;width:60px;height:60px;border-top:2px solid var(--green);border-left:2px solid var(--green);z-index:2;opacity:.5;}
+.about-img-wrap::after{content:'';position:absolute;bottom:-12px;right:-12px;width:60px;height:60px;border-bottom:2px solid var(--green);border-right:2px solid var(--green);z-index:2;opacity:.5;}
+.about-badge{position:absolute;bottom:1.5rem;right:1.5rem;background:rgba(7,10,9,.9);border:1px solid var(--border2);border-radius:3px;padding:.9rem 1.3rem;z-index:3;}
+.about-badge .num{font-family:var(--mono);font-size:2rem;font-weight:700;color:var(--green);}
+.about-badge .lbl{font-family:var(--mono);font-size:.68rem;letter-spacing:.16em;text-transform:uppercase;color:var(--muted);}
+.pillars{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-top:2rem;}
+.pillar{border:1px solid var(--border);padding:1.3rem 1.4rem;border-radius:3px;transition:border-color .3s,background .3s;}
+.pillar:hover{border-color:var(--green);background:rgba(155,225,93,.04);}
+.pillar-ic{width:36px;height:36px;background:rgba(155,225,93,.1);border-radius:3px;display:flex;align-items:center;justify-content:center;margin-bottom:.7rem;}
+.pillar-ic svg{width:18px;height:18px;color:var(--green);}
+.pillar h4{font-family:var(--sora);font-size:1rem;font-weight:700;color:var(--white);margin-bottom:.3rem;}
+.pillar p{font-size:.88rem;color:var(--muted);line-height:1.6;}
+
+/* ECOSYSTEM */
+#ecosystem{background:var(--bg);padding:8rem 5%;position:relative;overflow:hidden;}
+.eco-glow{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:800px;height:800px;background:radial-gradient(circle,rgba(155,225,93,.05) 0%,transparent 65%);pointer-events:none;}
+.eco-header{text-align:center;margin-bottom:4rem;}
+.eco-header .ssub{margin:.8rem auto 0;}
+.eco-svg-wrap{max-width:820px;margin:0 auto;}
+.eco-svg{width:100%;height:auto;display:block;}
+.eco-node-g{pointer-events:none;}
+.eco-node-rect{fill:#131A16;stroke:#2E3D35;stroke-width:1.5;}
+.eco-node-title{font-family:'Sora',sans-serif;font-size:11px;font-weight:700;fill:#F1F3ED;text-anchor:middle;}
+.eco-node-sub{font-family:'JetBrains Mono',monospace;font-size:8px;fill:#8A9490;text-anchor:middle;}
+.eco-center-rect{fill:#0C1610;stroke:#9BE15D;stroke-width:2;}
+.eco-center-title{font-family:'Sora',sans-serif;font-size:13px;font-weight:800;fill:#9BE15D;text-anchor:middle;}
+.eco-center-sub{font-family:'JetBrains Mono',monospace;font-size:8px;fill:#8A9490;text-anchor:middle;}
+.eco-line{stroke:#2A5520;stroke-width:1.5;fill:none;stroke-dasharray:6 4;animation:dash 2s linear infinite;}
+@keyframes dash{to{stroke-dashoffset:-20;}}
+.eco-particle circle{fill:#9BE15D;filter:drop-shadow(0 0 4px #9BE15D);}
+
+/* PRODUCTS */
+#products{background:var(--bg2);padding:8rem 5%;}
+.prod-head{display:flex;justify-content:space-between;align-items:flex-end;flex-wrap:wrap;gap:2rem;margin-bottom:3rem;}
+.filters{display:flex;gap:.5rem;flex-wrap:wrap;}
+.fb{font-family:var(--mono);font-size:.75rem;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);background:transparent;border:1px solid var(--border);padding:.55rem 1.1rem;border-radius:3px;cursor:pointer;transition:all .25s;}
+.fb:hover,.fb.on{border-color:var(--green);color:var(--green);background:rgba(155,225,93,.07);}
+.prod-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem;}
+.pc{background:var(--card);border:1px solid var(--border);border-radius:4px;overflow:hidden;display:flex;flex-direction:column;transition:border-color .3s,transform .4s,box-shadow .4s;cursor:pointer;}
+.pc:hover{border-color:var(--green);transform:translateY(-8px);box-shadow:0 20px 40px rgba(0,0,0,.4);}
+.pc.hidden{display:none;}
+.pc-top{padding:.9rem 1.2rem;display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid var(--border);}
+.pc-id{font-family:var(--mono);font-size:.75rem;letter-spacing:.14em;text-transform:uppercase;color:var(--green);}
+.pc-num{font-family:var(--mono);font-size:1.1rem;font-weight:700;color:rgba(155,225,93,.5);}
+.pc-imgwrap{position:relative;height:210px;overflow:hidden;background:var(--bg);}
+.pc-imgwrap img{width:100%;height:100%;object-fit:cover;transition:transform .6s;filter:grayscale(15%) contrast(1.05);}
+.pc:hover .pc-imgwrap img{transform:scale(1.06);}
+.pc-imgwrap::after{content:'';position:absolute;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,rgba(155,225,93,.7),transparent);animation:scanLine 5s ease-in-out infinite;pointer-events:none;}
+.pc-st{position:absolute;top:.8rem;right:.8rem;display:flex;align-items:center;gap:.4rem;background:rgba(7,10,9,.88);padding:.35rem .75rem;border-radius:2px;font-family:var(--mono);font-size:.72rem;letter-spacing:.1em;text-transform:uppercase;}
+.pc-st.op{color:var(--green);}
+.pc-st.dv{color:var(--amber);}
+.pc-body{padding:1.5rem 1.4rem 1.1rem;flex:1;}
+.pc-name{font-family:var(--sora);font-size:1.15rem;font-weight:700;color:var(--white);margin-bottom:.5rem;}
+.pc-desc{font-size:.9rem;color:var(--muted);line-height:1.7;margin-bottom:1.1rem;}
+.pc-metrics{display:grid;grid-template-columns:1fr 1fr;gap:.5rem;}
+.pc-metric{background:rgba(255,255,255,.04);border:1px solid var(--border);padding:.6rem .8rem;border-radius:2px;}
+.pc-metric .k{font-family:var(--mono);font-size:.68rem;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);}
+.pc-metric .v{font-family:var(--mono);font-size:.92rem;font-weight:700;color:var(--white);margin-top:.15rem;}
+.pc-foot{padding:1rem 1.4rem;border-top:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;}
+.pc-view{font-family:var(--mono);font-size:.75rem;letter-spacing:.1em;text-transform:uppercase;color:var(--green);display:flex;align-items:center;gap:.4rem;transition:gap .2s;}
+.pc:hover .pc-view{gap:.7rem;}
+
+/* MISSION */
+#mission{background:var(--bg);padding:8rem 5%;}
+.mc-header{text-align:center;margin-bottom:4rem;}
+.mc-header .ssub{margin:.8rem auto 0;}
+.mc-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.3rem;}
+.mc{background:var(--card);border:1px solid var(--border);border-radius:4px;padding:2.2rem 1.8rem;position:relative;overflow:hidden;transition:transform .35s,border-color .3s,box-shadow .35s;}
+.mc:hover{transform:translateY(-6px);border-color:var(--green);box-shadow:0 16px 40px rgba(0,0,0,.3);}
+.mc::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,transparent,var(--green),transparent);opacity:0;transition:opacity .3s;}
+.mc:hover::before{opacity:1;}
+.mc-num{position:absolute;top:1.2rem;right:1.5rem;font-family:var(--mono);font-size:4rem;font-weight:800;color:rgba(155,225,93,.12);line-height:1;}
+.mc-ic{width:46px;height:46px;background:rgba(155,225,93,.1);border-radius:3px;display:flex;align-items:center;justify-content:center;margin-bottom:1.2rem;border:1px solid rgba(155,225,93,.2);}
+.mc-ic svg{width:22px;height:22px;color:var(--green);}
+.mc-title{font-family:var(--sora);font-size:1.1rem;font-weight:700;color:var(--white);margin-bottom:.6rem;}
+.mc-text{font-size:.92rem;color:var(--muted);line-height:1.8;}
+.mstat-bar{margin-top:4rem;background:linear-gradient(135deg,rgba(155,225,93,.05),rgba(155,225,93,.02));border:1px solid rgba(155,225,93,.2);border-radius:4px;padding:3rem;display:grid;grid-template-columns:1fr auto;gap:3rem;align-items:center;}
+.mstat-text h3{font-family:var(--sora);font-size:1.5rem;font-weight:700;color:var(--white);margin-bottom:.6rem;}
+.mstat-text p{font-size:.95rem;color:var(--muted);line-height:1.8;max-width:520px;}
+.mstat-nums{display:flex;gap:3rem;}
+.msn{text-align:center;}
+.msn .n{font-family:var(--mono);font-size:2.2rem;font-weight:700;color:var(--green);}
+.msn .l{font-family:var(--mono);font-size:.72rem;letter-spacing:.16em;text-transform:uppercase;color:var(--muted);margin-top:.3rem;}
+
+/* PARTNERS */
+#partners{background:var(--bg2);padding:5rem 5%;border-top:1px solid var(--border);}
+.partners-hd{text-align:center;font-family:var(--mono);font-size:.82rem;letter-spacing:.22em;text-transform:uppercase;color:var(--muted);margin-bottom:2.5rem;}
+.partners-inner{display:flex;justify-content:center;align-items:center;gap:1.8rem;flex-wrap:wrap;}
+.partner{border:1px solid var(--border);padding:.65rem 1.5rem;border-radius:3px;font-family:var(--mono);font-size:.8rem;letter-spacing:.18em;text-transform:uppercase;color:var(--muted);transition:border-color .2s,color .2s;}
+.partner:hover{border-color:var(--green);color:var(--green);}
+
+/* CAREERS */
+#careers{background:var(--bg);padding:8rem 5%;}
+.careers-grid{display:grid;grid-template-columns:1fr 1fr;gap:6rem;align-items:start;}
+.perks{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-top:2rem;}
+.perk{display:flex;align-items:flex-start;gap:.8rem;}
+.perk-ic{width:36px;height:36px;background:rgba(155,225,93,.08);border-radius:3px;display:flex;align-items:center;justify-content:center;flex-shrink:0;border:1px solid rgba(155,225,93,.15);}
+.perk-ic svg{width:18px;height:18px;color:var(--green);}
+.perk h4{font-family:var(--sora);font-size:1rem;font-weight:600;color:var(--white);margin-bottom:.25rem;}
+.perk p{font-size:.88rem;color:var(--muted);line-height:1.6;}
+.job-list{display:flex;flex-direction:column;gap:1rem;}
+.job{background:var(--card);border:1px solid var(--border);padding:1.5rem 1.7rem;border-radius:4px;cursor:pointer;transition:border-color .25s,background .25s,transform .25s;}
+.job:hover{border-color:var(--green);background:rgba(155,225,93,.03);transform:translateX(4px);}
+.job-top{display:flex;justify-content:space-between;align-items:flex-start;gap:1rem;margin-bottom:.6rem;}
+.job-title{font-family:var(--sora);font-size:1.05rem;font-weight:600;color:var(--white);}
+.job-badge{font-family:var(--mono);font-size:.7rem;letter-spacing:.12em;text-transform:uppercase;color:var(--green);border:1px solid rgba(155,225,93,.3);padding:.25rem .65rem;border-radius:2px;white-space:nowrap;background:rgba(155,225,93,.06);}
+.job-meta{font-family:var(--mono);font-size:.78rem;color:var(--muted);display:flex;gap:1.5rem;}
+.careers-cta{margin-top:1.5rem;background:rgba(155,225,93,.05);border:1px solid rgba(155,225,93,.25);border-radius:4px;padding:1.6rem;text-align:center;}
+.careers-cta p{font-size:.92rem;color:var(--muted);margin-bottom:1rem;}
+
+/* CONTACT */
+#contact{background:var(--bg2);padding:8rem 5%;}
+.contact-grid{display:grid;grid-template-columns:1fr 1fr;gap:6rem;}
+.ci-list{display:flex;flex-direction:column;gap:1.3rem;margin-top:2.5rem;}
+.ci{display:flex;align-items:flex-start;gap:1rem;}
+.ci-ic{width:44px;height:44px;background:rgba(155,225,93,.08);border-radius:3px;display:flex;align-items:center;justify-content:center;flex-shrink:0;border:1px solid rgba(155,225,93,.15);}
+.ci-ic svg{width:20px;height:20px;color:var(--green);}
+.ci-body label{font-family:var(--mono);font-size:.72rem;letter-spacing:.16em;text-transform:uppercase;color:var(--green);display:block;margin-bottom:.3rem;}
+.ci-body p{font-size:.95rem;color:var(--text);line-height:1.65;}
+.cform{background:var(--card);border:1px solid var(--border);padding:2.5rem;border-radius:4px;}
+.cform h3{font-family:var(--sora);font-size:1.25rem;font-weight:700;color:var(--white);margin-bottom:1.5rem;}
+.fg-grid{display:grid;grid-template-columns:1fr 1fr;gap:1rem;}
+.fg{display:flex;flex-direction:column;gap:.4rem;}
+.fg.full{grid-column:1/-1;}
+.fg label{font-family:var(--mono);font-size:.72rem;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);}
+.fg input,.fg select,.fg textarea{background:rgba(255,255,255,.04);border:1px solid var(--border);padding:.82rem 1rem;border-radius:3px;color:var(--white);font-size:.95rem;font-family:var(--inter);outline:none;transition:border-color .25s;}
+.fg input:focus,.fg select:focus,.fg textarea:focus{border-color:var(--green);background:rgba(155,225,93,.03);}
+.fg input::placeholder,.fg textarea::placeholder{color:var(--dim);}
+.fg select{appearance:none;cursor:pointer;}
+.fg textarea{resize:vertical;min-height:110px;}
+
+/* FOOTER */
+footer{background:#050807;border-top:1px solid var(--border);padding:4rem 5% 2rem;}
+.foot-grid{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:3rem;margin-bottom:3rem;}
+.fbrand p{font-size:.92rem;color:var(--muted);line-height:1.8;margin-top:.8rem;max-width:260px;}
+.fcol h4{font-family:var(--mono);font-size:.75rem;letter-spacing:.2em;text-transform:uppercase;color:var(--green);margin-bottom:1.1rem;}
+.fcol li{margin-bottom:.6rem;}
+.fcol a{font-size:.9rem;color:var(--muted);transition:color .2s;}
+.fcol a:hover{color:var(--white);}
+.foot-bottom{border-top:1px solid var(--border);padding-top:1.4rem;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:.6rem;}
+.foot-bottom p{font-family:var(--mono);font-size:.78rem;color:var(--dim);}
+
+/* DETAIL OVERLAY */
+#detail{position:fixed;inset:0;z-index:800;background:var(--bg);overflow-y:auto;transform:translateX(100%);transition:transform .45s cubic-bezier(.22,.61,.36,1);}
+#detail.open{transform:none;}
+.det-nav{position:sticky;top:0;background:rgba(7,10,9,.97);backdrop-filter:blur(16px);border-bottom:1px solid var(--border);padding:1rem 5%;display:flex;align-items:center;justify-content:space-between;z-index:10;}
+.det-back{display:flex;align-items:center;gap:.5rem;font-family:var(--mono);font-size:.8rem;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);background:none;border:none;cursor:pointer;transition:color .2s;}
+.det-back:hover{color:var(--green);}
+.det-hero{padding:4rem 5%;display:grid;grid-template-columns:1fr 1fr;gap:5rem;align-items:start;}
+.det-img-wrap{position:relative;border-radius:4px;overflow:hidden;}
+.det-img-wrap img{width:100%;height:440px;object-fit:cover;}
+.det-img-ol{position:absolute;inset:0;background:linear-gradient(135deg,rgba(155,225,93,.07),transparent 60%);}
+.det-hud-ol{position:absolute;bottom:1.2rem;left:1.2rem;background:rgba(7,10,9,.92);border:1px solid var(--border);border-radius:3px;padding:1rem 1.3rem;}
+.det-hud-ol .drow{display:flex;justify-content:space-between;gap:2.5rem;padding:.3rem 0;border-bottom:1px solid rgba(255,255,255,.05);}
+.det-hud-ol .drow:last-child{border-bottom:none;}
+.det-hud-ol .dk{font-family:var(--mono);font-size:.72rem;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);}
+.det-hud-ol .dv{font-family:var(--mono);font-size:.82rem;font-weight:700;color:var(--white);}
+.det-hud-ol .dv.g{color:var(--green);}
+.det-name{font-family:var(--sora);font-size:clamp(2rem,3.5vw,3rem);font-weight:800;color:var(--white);line-height:1.0;margin-bottom:.4rem;}
+.det-code{font-family:var(--mono);font-size:.85rem;letter-spacing:.18em;color:var(--green);margin-bottom:1.4rem;}
+.det-desc{font-size:1rem;color:var(--muted);line-height:1.9;margin-bottom:2rem;}
+.det-spec-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:.75rem;margin-bottom:2rem;}
+.dspec{background:var(--card);border:1px solid var(--border);padding:1rem 1.2rem;border-radius:3px;}
+.dspec .k{font-family:var(--mono);font-size:.7rem;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin-bottom:.3rem;}
+.dspec .v{font-family:var(--mono);font-size:.98rem;font-weight:700;color:var(--white);}
+.det-feats{padding:3.5rem 5%;background:var(--bg2);border-top:1px solid var(--border);}
+.det-feats h3{font-family:var(--sora);font-size:1.4rem;font-weight:700;color:var(--white);margin-bottom:1.8rem;}
+.feat-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.2rem;}
+.feat{background:var(--card);border:1px solid var(--border);padding:1.6rem;border-radius:4px;}
+.feat-ic{width:42px;height:42px;background:rgba(155,225,93,.09);border-radius:3px;display:flex;align-items:center;justify-content:center;margin-bottom:.9rem;border:1px solid rgba(155,225,93,.18);}
+.feat-ic svg{width:20px;height:20px;color:var(--green);}
+.feat h4{font-family:var(--sora);font-size:1rem;font-weight:600;color:var(--white);margin-bottom:.4rem;}
+.feat p{font-size:.9rem;color:var(--muted);line-height:1.7;}
+
+/* MOBILE MENU */
+#mob{position:fixed;inset:0;background:rgba(7,10,9,.98);z-index:1000;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2.8rem;transform:translateX(100%);transition:transform .4s;}
+#mob.open{transform:none;}
+#mob a{font-family:var(--sora);font-size:1.5rem;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);transition:color .2s;}
+#mob a:hover{color:var(--green);}
+#mob-close{position:absolute;top:1.8rem;right:5%;background:none;border:none;color:var(--muted);font-size:1.8rem;cursor:pointer;}
+
+/* RESPONSIVE */
+@media(max-width:1100px){
+  .h-inner{grid-template-columns:1fr;padding-bottom:5rem;}
+  .h-right{display:grid;grid-template-columns:1fr 1fr;gap:1.2rem;}
+  .radar-box{max-width:220px;}
+  .about-grid,.careers-grid,.contact-grid{grid-template-columns:1fr;gap:4rem;}
+  .mc-grid{grid-template-columns:1fr 1fr;}
+  .foot-grid{grid-template-columns:1fr 1fr;}
+  .det-hero{grid-template-columns:1fr;}
+  .mstat-bar{grid-template-columns:1fr;}
+}
+@media(max-width:768px){
+  .n-links,.n-status,.n-right .btn-g{display:none;}
+  .n-ham{display:flex;}
+  #hero,#about,#ecosystem,#products,#mission,#careers,#contact{padding-top:5.5rem;padding-bottom:5.5rem;}
+  #partners{padding:4rem 5%;}
+  .mc-grid{grid-template-columns:1fr;}
+  .prod-grid{grid-template-columns:1fr 1fr;}
+  .pillars,.perks{grid-template-columns:1fr;}
+  .feat-grid{grid-template-columns:1fr 1fr;}
+  .det-spec-grid{grid-template-columns:1fr 1fr;}
+  .foot-grid{grid-template-columns:1fr 1fr;gap:2.5rem;}
+  .h-right{grid-template-columns:1fr;}
+  .mstat-nums{flex-wrap:wrap;gap:2rem;}
+  .fg-grid{grid-template-columns:1fr;}
+}
+@media(max-width:540px){
+  .prod-grid{grid-template-columns:1fr;}
+  .h-ctas{flex-direction:column;}
+  .btn-g,.btn-o{justify-content:center;width:100%;} 
+  .foot-grid{grid-template-columns:1fr;}
+  .foot-bottom{flex-direction:column;text-align:center;}
+  .feat-grid{grid-template-columns:1fr;}
+  .fg-grid{grid-template-columns:1fr;}
+  .h-title h1{font-size:clamp(2.8rem,10vw,5rem);}
+  .mstat-bar{padding:2rem 1.5rem;}
+  .det-hero{padding:2rem 5%;}
+}
+</style>
+</head>
+<body>
+
+<!-- ══ MOBILE MENU ══ -->
+<div id="mob">
+  <button id="mob-close">✕</button>
+  <a href="#about">About Us</a>
+  <a href="#mission">Our Mission</a>
+  <a href="#products">Products</a>
+  <a href="#careers">Careers</a>
+  <a href="#partners">Partners</a>
+  <a href="#contact">Contact</a>
+</div>
+
+<!-- ══ NAV ══ -->
+<nav id="nav">
+  <a href="#" class="n-logo">
+    <svg class="n-shield" viewBox="0 0 40 40" fill="none">
+      <path d="M20 3L35 9V20C35 28.284 28.284 35.5 20 37C11.716 35.5 5 28.284 5 20V9L20 3Z" fill="#0C1610" stroke="#9BE15D" stroke-width="1.5"/>
+      <path d="M20 10L28 13.5V20C28 24.418 24.418 28 20 28.8C15.582 28 12 24.418 12 20V13.5L20 10Z" fill="none" stroke="#9BE15D" stroke-width="1" opacity="0.6"/>
+      <circle cx="20" cy="20" r="3" fill="#9BE15D"/>
+      <path d="M20 14V20L24 23" stroke="#9BE15D" stroke-width="1.5" stroke-linecap="round"/>
+    </svg>
+    <div class="n-words">
+      <strong>KAVACH</strong>
+      <small>Engineered Different</small>
+    </div>
+  </a>
+  <div class="n-links">
+    <a href="#about">About Us</a>
+    <a href="#mission">Our Mission</a>
+    <a href="#products">Products</a>
+    <a href="#careers">Careers</a>
+    <a href="#partners">Partners</a>
+    <a href="#contact">Contact Us</a>
+  </div>
+  <div class="n-right">
+    <div class="n-status"><span class="dot g"></span>Systems Operational</div>
+    <a href="#contact" class="btn-g" style="padding:.6rem 1.3rem;font-size:.78rem;">Schedule Briefing</a>
+    <button class="n-ham" id="ham-btn"><span></span><span></span><span></span></button>
+  </div>
+</nav>
+
+<!-- ══ HERO ══ -->
+<section id="hero">
+  <div class="h-bg">
+    <img src="hero_background.png" alt="Military drone in flight" loading="eager"/>
+  </div>  
+  <div class="h-inner">
+    <!-- LEFT -->
+    <div class="h-left">
+      <div class="h-eye">
+        <div class="h-eye-line"></div>
+        <span class="h-eye-txt">Autonomous Defence Systems — India</span>
+      </div>
+      <div class="h-title">
+        <h1>BUILT IN<br/><span class="g">BHARAT.</span><br/>BUILT FOR<br/>THE WORLD.</h1>
+      </div>
+      <p class="h-sub">Mission-ready UAS, ISR platforms, counter-UAS systems, loitering munitions, and tactical robotics — designed and manufactured in India for the modern battlefield.</p>
+      <div class="h-badges">
+        <div class="h-badge"><span class="dot g"></span>Live Defence Ops</div>
+        <div class="h-badge"><span class="dot g"></span>Combat Validated</div>
+        <div class="h-badge"><span class="dot a"></span>Operational</div>
+      </div>
+      <div class="h-ctas">
+        <a href="#contact" class="btn-g">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="3"/><path d="M3 12h3m12 0h3M12 3v3m0 12v3"/></svg>
+          Schedule Briefing →
+        </a>
+        <a href="#products" class="btn-o">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7,10 12,15 17,10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+          Download Product Pack
+        </a>
+      </div>
+    </div>
+    <!-- RIGHT HUD -->
+  </div>
+</section>
+
+<!-- ══ TICKER ══ -->
+<div class="ticker">
+  <div class="t-track">
+    <span class="t-item hi">KAVACH DEFENCE SYSTEMS</span>
+    <span class="t-item">AERO-X1 TACTICAL UAS</span>
+    <span class="t-item hi">·</span>
+    <span class="t-item">ISR-9 SURVEILLANCE PLATFORM</span>
+    <span class="t-item hi">·</span>
+    <span class="t-item">RAKSHA COUNTER-UAS</span>
+    <span class="t-item hi">·</span>
+    <span class="t-item">AGNI LOITERING MUNITION</span>
+    <span class="t-item hi">·</span>
+    <span class="t-item">VIJAY TACTICAL ROBOT</span>
+    <span class="t-item hi">·</span>
+    <span class="t-item">25+ PATENTS PENDING</span>
+    <span class="t-item hi">·</span>
+    <span class="t-item">99.8% RELIABILITY</span>
+    <span class="t-item hi">·</span>
+    <span class="t-item">COMBAT VALIDATED SYSTEMS</span>
+    <span class="t-item hi">·</span>
+    <span class="t-item">MADE IN INDIA</span>
+    <span class="t-item hi">·</span>
+    <!-- Duplicate for seamless loop -->
+    <span class="t-item hi">KAVACH DEFENCE SYSTEMS</span>
+    <span class="t-item">AERO-X1 TACTICAL UAS</span>
+    <span class="t-item hi">·</span>
+    <span class="t-item">ISR-9 SURVEILLANCE PLATFORM</span>
+    <span class="t-item hi">·</span>
+    <span class="t-item">RAKSHA COUNTER-UAS</span>
+    <span class="t-item hi">·</span>
+    <span class="t-item">AGNI LOITERING MUNITION</span>
+    <span class="t-item hi">·</span>
+    <span class="t-item">VIJAY TACTICAL ROBOT</span>
+    <span class="t-item hi">·</span>
+    <span class="t-item">25+ PATENTS PENDING</span>
+    <span class="t-item hi">·</span>
+    <span class="t-item">99.8% RELIABILITY</span>
+    <span class="t-item hi">·</span>
+    <span class="t-item">COMBAT VALIDATED SYSTEMS</span>
+    <span class="t-item hi">·</span>
+    <span class="t-item">MADE IN INDIA</span>
+    <span class="t-item hi">·</span>
+  </div>
+</div>
+
+<!-- ══ ABOUT ══ -->
+<section id="about">
+  <div class="about-grid">
+    <div class="about-img-wrap rl">
+      <img class="about-img" src="https://images.unsplash.com/photo-1581092160607-ee22621dd758?w=900&q=80&auto=format&fit=crop" alt="Defence engineering lab"/>
+      <div class="about-img-ol"></div>
+      <div class="about-badge">
+        <div class="num">2019</div>
+        <div class="lbl">Year Founded</div>
+      </div>
+    </div>
+    <div class="rr">
+      <div class="slabel">About Us</div>
+      <h2 class="stitle">We Build Systems<br/>That <span class="g">Protect Nations.</span></h2>
+      <p class="ssub">KAVACH is India's leading autonomous defence technology company. We design, manufacture, and deploy cutting-edge UAS, counter-UAS, and ISR systems that power modern military operations — built indigenously, battle-proven globally.</p>
+      <p class="ssub" style="margin-top:1rem;">From our R&D labs in Bengaluru and Hyderabad, our team of 300+ engineers, ex-defence scientists, and mission specialists work to engineer systems that are not just competitive — but definitive.</p>
+      <div class="pillars">
+        <div class="pillar">
+          <div class="pillar-ic">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+          </div>
+          <h4>Indigenous R&D</h4>
+          <p>100% designed and manufactured in India — no foreign dependencies in critical subsystems.</p>
+        </div>
+        <div class="pillar">
+          <div class="pillar-ic">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M3 12h3m12 0h3M12 3v3m0 12v3m-6.364-2.636l2.121-2.121m8.486-8.486l2.121-2.121M5.636 5.636l2.121 2.121m8.486 8.486l2.121 2.121"/></svg>
+          </div>
+          <h4>Precision Engineering</h4>
+          <p>Sub-metre accuracy navigation, redundant sensor fusion, and AI-driven target acquisition.</p>
+        </div>
+        <div class="pillar">
+          <div class="pillar-ic">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="13,2 3,14 12,14 11,22 21,10 12,10"/></svg>
+          </div>
+          <h4>Rapid Deployment</h4>
+          <p>Field-ready in under 10 minutes. Modular architecture supports mission-specific configurations.</p>
+        </div>
+        <div class="pillar">
+          <div class="pillar-ic">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87"/><path d="M16 3.13a4 4 0 010 7.75"/></svg>
+          </div>
+          <h4>Defence Collaboration</h4>
+          <p>Certified partner with Indian Army, Navy, and DRDO. Active programmes across all three services.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ ECOSYSTEM SVG ══ -->
+<section id="ecosystem">
+  <div class="eco-glow"></div>
+  <div class="eco-header rv">
+    <div class="slabel" style="justify-content:center;margin-bottom:1rem;">Defence Ecosystem</div>
+    <h2 class="stitle" style="text-align:center;">Integrated <span class="g">Combat Architecture</span></h2>
+    <p class="ssub" style="text-align:center;margin:0 auto;">Every KAVACH system connects seamlessly into a unified battle-space intelligence network.</p>
+  </div>
+  <div class="eco-svg-wrap rv">
+    <svg class="eco-svg" viewBox="0 0 820 500" xmlns="http://www.w3.org/2000/svg">
+      <!-- Connecting lines -->
+      <line class="eco-line" x1="410" y1="250" x2="130" y2="100"/>
+      <line class="eco-line" x1="410" y1="250" x2="410" y2="80"/>
+      <line class="eco-line" x1="410" y1="250" x2="690" y2="100"/>
+      <line class="eco-line" x1="410" y1="250" x2="130" y2="400"/>
+      <line class="eco-line" x1="410" y1="250" x2="690" y2="400"/>
+      <line class="eco-line" x1="410" y1="250" x2="80" y2="260"/>
+      <line class="eco-line" x1="410" y1="250" x2="740" y2="260"/>
+      <!-- Particles on lines -->
+      <g class="eco-particle">
+        <circle r="3"><animateMotion dur="3s" repeatCount="indefinite"><mpath href="#p1"/></animateMotion></circle>
+      </g>
+      <g class="eco-particle">
+        <circle r="3"><animateMotion dur="4s" repeatCount="indefinite" begin="1s"><mpath href="#p2"/></animateMotion></circle>
+      </g>
+      <g class="eco-particle">
+        <circle r="3"><animateMotion dur="3.5s" repeatCount="indefinite" begin="2s"><mpath href="#p3"/></animateMotion></circle>
+      </g>
+      <defs>
+        <path id="p1" d="M410,250 L130,100"/>
+        <path id="p2" d="M410,250 L690,100"/>
+        <path id="p3" d="M410,250 L410,80"/>
+      </defs>
+      <!-- Center node -->
+      <g class="eco-node-g">
+        <rect class="eco-center-rect" x="330" y="210" width="160" height="80" rx="4"/>
+        <text class="eco-center-title" x="410" y="245">KAVACH</text>
+        <text class="eco-center-title" x="410" y="262">CORE</text>
+        <text class="eco-center-sub" x="410" y="278">BATTLE MGMT AI</text>
+      </g>
+      <!-- Top nodes -->
+      <g class="eco-node-g">
+        <rect class="eco-node-rect" x="50" y="55" width="160" height="65" rx="3"/>
+        <text class="eco-node-title" x="130" y="83">UAS SWARM</text>
+        <text class="eco-node-sub" x="130" y="99">AERO-X1 / AERO-X3</text>
+        <text class="eco-node-sub" x="130" y="110">FORMATION OPS</text>
+      </g>
+      <g class="eco-node-g">
+        <rect class="eco-node-rect" x="330" y="28" width="160" height="65" rx="3"/>
+        <text class="eco-node-title" x="410" y="55">ISR NETWORK</text>
+        <text class="eco-node-sub" x="410" y="71">ISR-9 PLATFORM</text>
+        <text class="eco-node-sub" x="410" y="82">MULTI-SENSOR FUSION</text>
+      </g>
+      <g class="eco-node-g">
+        <rect class="eco-node-rect" x="610" y="55" width="160" height="65" rx="3"/>
+        <text class="eco-node-title" x="690" y="83">C-UAS DEFENCE</text>
+        <text class="eco-node-sub" x="690" y="99">RAKSHA SYSTEM</text>
+        <text class="eco-node-sub" x="690" y="110">RF/EO DETECTION</text>
+      </g>
+      <!-- Middle nodes -->
+      <g class="eco-node-g">
+        <rect class="eco-node-rect" x="0" y="228" width="148" height="65" rx="3"/>
+        <text class="eco-node-title" x="74" y="256">SECURE COMMS</text>
+        <text class="eco-node-sub" x="74" y="272">ENCRYPTED MESH</text>
+        <text class="eco-node-sub" x="74" y="283">FREQUENCY HOP</text>
+      </g>
+      <g class="eco-node-g">
+        <rect class="eco-node-rect" x="672" y="228" width="148" height="65" rx="3"/>
+        <text class="eco-node-title" x="746" y="256">GROUND CTRL</text>
+        <text class="eco-node-sub" x="746" y="272">GCS STATION</text>
+        <text class="eco-node-sub" x="746" y="283">OPERATOR UI</text>
+      </g>
+      <!-- Bottom nodes -->
+      <g class="eco-node-g">
+        <rect class="eco-node-rect" x="50" y="368" width="160" height="65" rx="3"/>
+        <text class="eco-node-title" x="130" y="396">LOITERING MUNITION</text>
+        <text class="eco-node-sub" x="130" y="412">AGNI SYSTEM</text>
+        <text class="eco-node-sub" x="130" y="423">PRECISION STRIKE</text>
+      </g>
+      <g class="eco-node-g">
+        <rect class="eco-node-rect" x="610" y="368" width="160" height="65" rx="3"/>
+        <text class="eco-node-title" x="690" y="396">TACTICAL ROBOTS</text>
+        <text class="eco-node-sub" x="690" y="412">VIJAY UGVS</text>
+        <text class="eco-node-sub" x="690" y="423">AUTONOMOUS OPS</text>
+      </g>
+    </svg>
+  </div>
+</section>
+
+<!-- ══ PRODUCTS ══ -->
+<section id="products">
+  <div class="prod-head">
+    <div class="rv">
+      <div class="slabel">Products</div>
+      <h2 class="stitle">The <span class="g">KAVACH</span> Arsenal</h2>
+    </div>
+    <div class="filters rv">
+      <button class="fb on" data-cat="all">All Systems</button>
+      <button class="fb" data-cat="uas">UAS</button>
+      <button class="fb" data-cat="isr">ISR</button>
+      <button class="fb" data-cat="cuas">C-UAS</button>
+      <button class="fb" data-cat="munition">Munitions</button>
+      <button class="fb" data-cat="ground">Ground</button>
+    </div>
+  </div>
+  <div class="prod-grid">
+
+    <!-- Card 1 -->
+    <div class="pc rv" data-cat="uas" data-id="0">
+      <div class="pc-top">
+        <span class="pc-id">KAVACH / AERO-X1</span>
+        <span class="pc-num">01</span>
+      </div>
+      <div class="pc-imgwrap">
+        <img src="https://images.unsplash.com/photo-1473968512647-3e447244af8f?w=600&q=80&auto=format&fit=crop" alt="AERO-X1 Tactical UAS"/>
+        <div class="pc-st op"><span class="dot g"></span>Operational</div>
+      </div>
+      <div class="pc-body">
+        <div class="pc-name">AERO-X1 Tactical UAS</div>
+        <p class="pc-desc">Fixed-wing VTOL tactical unmanned aircraft system designed for deep-penetration ISR and precision strike missions in contested environments.</p>
+        <div class="pc-metrics">
+          <div class="pc-metric"><div class="k">Range</div><div class="v">120 km</div></div>
+          <div class="pc-metric"><div class="k">Endurance</div><div class="v">8 hrs</div></div>
+          <div class="pc-metric"><div class="k">Payload</div><div class="v">12 kg</div></div>
+          <div class="pc-metric"><div class="k">Altitude</div><div class="v">5,500 m</div></div>
+        </div>
+      </div>
+      <div class="pc-foot">
+        <div class="pc-view">VIEW SYSTEM →</div>
+        <div style="font-family:var(--mono);font-size:.7rem;color:var(--muted);">UAS · STRIKE</div>
+      </div>
+    </div>
+
+    <!-- Card 2 -->
+    <div class="pc rv" data-cat="isr" data-id="1">
+      <div class="pc-top">
+        <span class="pc-id">KAVACH / ISR-9</span>
+        <span class="pc-num">02</span>
+      </div>
+      <div class="pc-imgwrap">
+        <img src="https://images.unsplash.com/photo-1531297484001-80022131f5a1?w=600&q=80&auto=format&fit=crop" alt="ISR-9 Surveillance Platform"/>
+        <div class="pc-st op"><span class="dot g"></span>Operational</div>
+      </div>
+      <div class="pc-body">
+        <div class="pc-name">ISR-9 Surveillance Platform</div>
+        <p class="pc-desc">Multi-sensor intelligence, surveillance, and reconnaissance platform with AI-driven anomaly detection and real-time data fusion to battlefield command.</p>
+        <div class="pc-metrics">
+          <div class="pc-metric"><div class="k">Sensors</div><div class="v">EO/IR/SAR</div></div>
+          <div class="pc-metric"><div class="k">Resolution</div><div class="v">0.15 m</div></div>
+          <div class="pc-metric"><div class="k">Data Link</div><div class="v">Encrypted</div></div>
+          <div class="pc-metric"><div class="k">Latency</div><div class="v">&lt;200 ms</div></div>
+        </div>
+      </div>
+      <div class="pc-foot">
+        <div class="pc-view">VIEW SYSTEM →</div>
+        <div style="font-family:var(--mono);font-size:.7rem;color:var(--muted);">ISR · RECON</div>
+      </div>
+    </div>
+
+    <!-- Card 3 -->
+    <div class="pc rv" data-cat="cuas" data-id="2">
+      <div class="pc-top">
+        <span class="pc-id">KAVACH / RAKSHA</span>
+        <span class="pc-num">03</span>
+      </div>
+      <div class="pc-imgwrap">
+        <img src="https://images.unsplash.com/photo-1518770660439-4636190af475?w=600&q=80&auto=format&fit=crop" alt="RAKSHA Counter-UAS"/>
+        <div class="pc-st op"><span class="dot g"></span>Operational</div>
+      </div>
+      <div class="pc-body">
+        <div class="pc-name">RAKSHA Counter-UAS</div>
+        <p class="pc-desc">360° active counter-drone defence system using layered RF detection, optical tracking, and directed-energy neutralisation for critical asset protection.</p>
+        <div class="pc-metrics">
+          <div class="pc-metric"><div class="k">Detect Range</div><div class="v">10 km</div></div>
+          <div class="pc-metric"><div class="k">Neutralise</div><div class="v">5 km</div></div>
+          <div class="pc-metric"><div class="k">Reaction</div><div class="v">&lt;3 sec</div></div>
+          <div class="pc-metric"><div class="k">Tracks</div><div class="v">64 / sim.</div></div>
+        </div>
+      </div>
+      <div class="pc-foot">
+        <div class="pc-view">VIEW SYSTEM →</div>
+        <div style="font-family:var(--mono);font-size:.7rem;color:var(--muted);">C-UAS · DEFENCE</div>
+      </div>
+    </div>
+
+    <!-- Card 4 -->
+    <div class="pc rv" data-cat="munition" data-id="3">
+      <div class="pc-top">
+        <span class="pc-id">KAVACH / AGNI-LM</span>
+        <span class="pc-num">04</span>
+      </div>
+      <div class="pc-imgwrap">
+        <img src="https://images.unsplash.com/photo-1504711434969-e33886168f5c?w=600&q=80&auto=format&fit=crop" alt="AGNI Loitering Munition"/>
+        <div class="pc-st dv"><span class="dot a"></span>Dev. Phase</div>
+      </div>
+      <div class="pc-body">
+        <div class="pc-name">AGNI Loitering Munition</div>
+        <p class="pc-desc">Precision loitering munition with man-in-the-loop target confirmation. AI-assisted terminal guidance with abort capability until final engagement.</p>
+        <div class="pc-metrics">
+          <div class="pc-metric"><div class="k">Loiter Time</div><div class="v">45 min</div></div>
+          <div class="pc-metric"><div class="k">Strike CEP</div><div class="v">0.5 m</div></div>
+          <div class="pc-metric"><div class="k">Warhead</div><div class="v">4 kg EFP</div></div>
+          <div class="pc-metric"><div class="k">Launch</div><div class="v">Tube/Rail</div></div>
+        </div>
+      </div>
+      <div class="pc-foot">
+        <div class="pc-view">VIEW SYSTEM →</div>
+        <div style="font-family:var(--mono);font-size:.7rem;color:var(--muted);">MUNITION · STRIKE</div>
+      </div>
+    </div>
+
+    <!-- Card 5 -->
+    <div class="pc rv" data-cat="ground" data-id="4">
+      <div class="pc-top">
+        <span class="pc-id">KAVACH / VIJAY-UGV</span>
+        <span class="pc-num">05</span>
+      </div>
+      <div class="pc-imgwrap">
+        <img src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=600&q=80&auto=format&fit=crop" alt="VIJAY Tactical Robot"/>
+        <div class="pc-st op"><span class="dot g"></span>Operational</div>
+      </div>
+      <div class="pc-body">
+        <div class="pc-name">VIJAY Tactical Ground Robot</div>
+        <p class="pc-desc">Unmanned ground vehicle for CBRN recon, EOD support, and combat logistics. Fully autonomous navigation with remote override and payload flexibility.</p>
+        <div class="pc-metrics">
+          <div class="pc-metric"><div class="k">Speed</div><div class="v">25 km/h</div></div>
+          <div class="pc-metric"><div class="k">Payload</div><div class="v">80 kg</div></div>
+          <div class="pc-metric"><div class="k">Terrain</div><div class="v">All-surface</div></div>
+          <div class="pc-metric"><div class="k">Endurance</div><div class="v">12 hrs</div></div>
+        </div>
+      </div>
+      <div class="pc-foot">
+        <div class="pc-view">VIEW SYSTEM →</div>
+        <div style="font-family:var(--mono);font-size:.7rem;color:var(--muted);">UGV · LOGISTICS</div>
+      </div>
+    </div>
+
+    <!-- Card 6 -->
+    <div class="pc rv" data-cat="uas" data-id="5">
+      <div class="pc-top">
+        <span class="pc-id">KAVACH / AERO-X3</span>
+        <span class="pc-num">06</span>
+      </div>
+      <div class="pc-imgwrap">
+        <img src="https://images.unsplash.com/photo-1579829366248-204fe8413f31?w=600&q=80&auto=format&fit=crop" alt="AERO-X3 Swarm UAS"/>
+        <div class="pc-st dv"><span class="dot a"></span>Dev. Phase</div>
+      </div>
+      <div class="pc-body">
+        <div class="pc-name">AERO-X3 Swarm UAS</div>
+        <p class="pc-desc">Multi-agent swarm drone system capable of coordinated ISR and saturation attack missions. Decentralised AI autonomy with no single point of failure.</p>
+        <div class="pc-metrics">
+          <div class="pc-metric"><div class="k">Swarm Size</div><div class="v">Up to 50</div></div>
+          <div class="pc-metric"><div class="k">Coord. Range</div><div class="v">5 km</div></div>
+          <div class="pc-metric"><div class="k">Launch Time</div><div class="v">&lt;5 min</div></div>
+          <div class="pc-metric"><div class="k">Mission AI</div><div class="v">Distributed</div></div>
+        </div>
+      </div>
+      <div class="pc-foot">
+        <div class="pc-view">VIEW SYSTEM →</div>
+        <div style="font-family:var(--mono);font-size:.7rem;color:var(--muted);">UAS · SWARM</div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ══ MISSION ══ -->
+<section id="mission">
+  <div class="mc-header rv">
+    <div class="slabel" style="justify-content:center;">Our Mission</div>
+    <h2 class="stitle" style="text-align:center;">Why We <span class="g">Engineer Different</span></h2>
+    <p class="ssub" style="margin:0 auto;text-align:center;">KAVACH exists to build the defence technology that protects India and its allies — indigenously, affordably, and uncompromisingly.</p>
+  </div>
+  <div class="mc-grid">
+    <div class="mc rv">
+      <div class="mc-num">01</div>
+      <div class="mc-ic">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+      </div>
+      <div class="mc-title">Sovereign Technology</div>
+      <p class="mc-text">We believe India's defence cannot depend on foreign supply chains. Every circuit, algorithm, and airframe we build is designed, developed, and manufactured in India.</p>
+    </div>
+    <div class="mc rv">
+      <div class="mc-num">02</div>
+      <div class="mc-ic">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10 15.3 15.3 0 014-10z"/></svg>
+      </div>
+      <div class="mc-title">Global Operational Standards</div>
+      <p class="mc-text">Our systems meet NATO STANAG, MIL-STD, and DO-178C standards. Built for India, proven for allied forces worldwide — from the Himalayan border to maritime theatres.</p>
+    </div>
+    <div class="mc rv">
+      <div class="mc-num">03</div>
+      <div class="mc-ic">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="13,2 3,14 12,14 11,22 21,10 12,10"/></svg>
+      </div>
+      <div class="mc-title">Speed to Field</div>
+      <p class="mc-text">Traditional defence procurement takes years. KAVACH's agile development model delivers concept-to-deployment in 18 months — responding to evolving threats in real time.</p>
+    </div>
+    <div class="mc rv">
+      <div class="mc-num">04</div>
+      <div class="mc-ic">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg>
+      </div>
+      <div class="mc-title">AI-First Architecture</div>
+      <p class="mc-text">Every KAVACH platform is built with AI at its core — autonomous navigation, target recognition, threat classification, and mission re-planning without human latency.</p>
+    </div>
+    <div class="mc rv">
+      <div class="mc-num">05</div>
+      <div class="mc-ic">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
+      </div>
+      <div class="mc-title">Interoperable Ecosystem</div>
+      <p class="mc-text">Our open architecture enables seamless integration with legacy C2 systems, allied platforms, and future next-gen capabilities — protecting your technology investment.</p>
+    </div>
+    <div class="mc rv">
+      <div class="mc-num">06</div>
+      <div class="mc-ic">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg>
+      </div>
+      <div class="mc-title">Mission Above All</div>
+      <p class="mc-text">We measure success not in boardrooms but on the battlefield. Every system we ship must protect lives, deter aggression, and give the warfighter an asymmetric advantage.</p>
+    </div>
+  </div>
+  <div class="mstat-bar rv">
+    <div class="mstat-text">
+      <h3>Proven Across <span style="color:var(--green)">Live Operations</span></h3>
+      <p>KAVACH systems have been deployed across high-altitude border surveillance, coastal maritime patrol, urban counter-terrorism support, and forward-edge ISR missions — accumulating over 500 real-world flight hours with a 98.7% mission success rate.</p>
+    </div>
+    <div class="mstat-nums">
+      <div class="msn"><div class="n counter" data-target="500">0</div><div class="l">Flight Hours</div></div>
+      <div class="msn"><div class="n counter" data-target="98" data-suffix=".7%">0</div><div class="l">Success Rate</div></div>
+      <div class="msn"><div class="n counter" data-target="25" data-suffix="+">0</div><div class="l">Patents Pending</div></div>
+      <div class="msn"><div class="n counter" data-target="6">0</div><div class="l">Active Theatres</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ PARTNERS ══ -->
+<section id="partners">
+  <div class="partners-hd rv">Trusted & Certified Partners</div>
+  <div class="partners-inner rv">
+    <div class="partner">DRDO</div>
+    <div class="partner">Indian Army</div>
+    <div class="partner">Indian Navy</div>
+    <div class="partner">Indian Air Force</div>
+    <div class="partner">HAL</div>
+    <div class="partner">ISRO</div>
+    <div class="partner">BEL</div>
+    <div class="partner">TATA Advanced Systems</div>
+    <div class="partner">L&T Defence</div>
+    <div class="partner">Mahindra Defence</div>
+    <div class="partner">iDEX</div>
+    <div class="partner">MoD India</div>
+  </div>
+</section>
+
+<!-- ══ CAREERS ══ -->
+<section id="careers">
+  <div class="careers-grid">
+    <div class="rl">
+      <div class="slabel">Careers</div>
+      <h2 class="stitle">Build the Systems<br/>That <span class="g">Defend India.</span></h2>
+      <p class="ssub">We're looking for engineers, scientists, and operators who believe technology can change the odds on the battlefield. If you want your work to matter — truly matter — this is where you belong.</p>
+      <div class="perks">
+        <div class="perk">
+          <div class="perk-ic">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M2 12h20"/><path d="M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10 15.3 15.3 0 014-10z"/></svg>
+          </div>
+          <div>
+            <h4>Global Impact</h4>
+            <p>Systems you build defend real people on real borders — the stakes are as high as it gets.</p>
+          </div>
+        </div>
+        <div class="perk">
+          <div class="perk-ic">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/></svg>
+          </div>
+          <div>
+            <h4>Cutting-Edge Tech</h4>
+            <p>Work on autonomous systems, AI perception, embedded avionics, and secure comms.</p>
+          </div>
+        </div>
+        <div class="perk">
+          <div class="perk-ic">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 21V5a2 2 0 00-2-2h-4a2 2 0 00-2 2v16"/></svg>
+          </div>
+          <div>
+            <h4>Competitive Pay</h4>
+            <p>Top-tier packages, ESOPs, classified project bonuses, and health coverage for your family.</p>
+          </div>
+        </div>
+        <div class="perk">
+          <div class="perk-ic">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg>
+          </div>
+          <div>
+            <h4>Elite Culture</h4>
+            <p>Small teams, massive ownership. No bureaucracy — just mission-driven engineering.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="rr">
+      <div class="job-list">
+        <div class="job">
+          <div class="job-top">
+            <div class="job-title">Senior Avionics Engineer</div>
+            <div class="job-badge">Urgent</div>
+          </div>
+          <div class="job-meta"><span>Bengaluru, India</span><span>Full Time</span><span>₹40–60 LPA</span></div>
+        </div>
+        <div class="job">
+          <div class="job-top">
+            <div class="job-title">AI / Computer Vision Engineer</div>
+            <div class="job-badge">Open</div>
+          </div>
+          <div class="job-meta"><span>Hyderabad / Remote</span><span>Full Time</span><span>₹35–55 LPA</span></div>
+        </div>
+        <div class="job">
+          <div class="job-top">
+            <div class="job-title">Embedded Systems Engineer (RTOS)</div>
+            <div class="job-badge">Open</div>
+          </div>
+          <div class="job-meta"><span>Bengaluru, India</span><span>Full Time</span><span>₹30–50 LPA</span></div>
+        </div>
+        <div class="job">
+          <div class="job-top">
+            <div class="job-title">Flight Test Engineer</div>
+            <div class="job-badge">Open</div>
+          </div>
+          <div class="job-meta"><span>Bengaluru, India</span><span>Full Time</span><span>₹28–45 LPA</span></div>
+        </div>
+        <div class="job">
+          <div class="job-top">
+            <div class="job-title">RF / Electronic Warfare Engineer</div>
+            <div class="job-badge">Clearance Req.</div>
+          </div>
+          <div class="job-meta"><span>Delhi NCR</span><span>Full Time</span><span>₹45–70 LPA</span></div>
+        </div>
+        <div class="job">
+          <div class="job-top">
+            <div class="job-title">Mechanical / Structures Engineer</div>
+            <div class="job-badge">Open</div>
+          </div>
+          <div class="job-meta"><span>Bengaluru, India</span><span>Full Time</span><span>₹25–40 LPA</span></div>
+        </div>
+      </div>
+      <div class="careers-cta">
+        <p>Don't see the right role? We hire on talent, not job descriptions.</p>
+        <a href="mailto:careers@kavachdefence.in" class="btn-g">Send Your Profile →</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ CONTACT ══ -->
+<section id="contact">
+  <div class="contact-grid">
+    <div class="rl">
+      <div class="slabel">Contact Us</div>
+      <h2 class="stitle">Let's Talk<br/><span class="g">Defence.</span></h2>
+      <p class="ssub">Whether you're a procurement officer, integrator, or potential partner — our team is ready for a classified briefing, product demonstration, or joint development discussion.</p>
+      <div class="ci-list">
+        <div class="ci">
+          <div class="ci-ic">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
+          </div>
+          <div class="ci-body">
+            <label>Headquarters</label>
+            <p>No. 12, Defence Research Zone<br/>Electronic City Phase II, Bengaluru — 560100</p>
+          </div>
+        </div>
+        <div class="ci">
+          <div class="ci-ic">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 9.81 19.79 19.79 0 01.02 1.2 2 2 0 012 0h3a2 2 0 012 1.72 12.84 12.84 0 00.7 2.81 2 2 0 01-.45 2.11L6.09 7.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45 12.84 12.84 0 002.81.7A2 2 0 0122 14h0z"/></svg>
+          </div>
+          <div class="ci-body">
+            <label>Secure Line</label>
+            <p>+91 80 4120 8800<br/>(Defence Liaison: Ext 201)</p>
+          </div>
+        </div>
+        <div class="ci">
+          <div class="ci-ic">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+          </div>
+          <div class="ci-body">
+            <label>Procurement & Partnerships</label>
+            <p>defence@kavachsystems.in<br/>classified@kavachsystems.in</p>
+          </div>
+        </div>
+        <div class="ci">
+          <div class="ci-ic">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12,6 12,12 16,14"/></svg>
+          </div>
+          <div class="ci-body">
+            <label>Response Time</label>
+            <p>Defence/Government: 24 hours<br/>Commercial Partners: 48 hours</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="rr">
+      <div class="cform">
+        <h3>Request a Briefing</h3>
+        <div class="fg-grid">
+          <div class="fg">
+            <label>First Name</label>
+            <input type="text" placeholder="Arjun"/>
+          </div>
+          <div class="fg">
+            <label>Last Name</label>
+            <input type="text" placeholder="Singh"/>
+          </div>
+          <div class="fg">
+            <label>Organisation</label>
+            <input type="text" placeholder="Ministry of Defence"/>
+          </div>
+          <div class="fg">
+            <label>Designation</label>
+            <input type="text" placeholder="Procurement Director"/>
+          </div>
+          <div class="fg full">
+            <label>Email</label>
+            <input type="email" placeholder="arjun.singh@mod.gov.in"/>
+          </div>
+          <div class="fg full">
+            <label>Area of Interest</label>
+            <select>
+              <option value="">— Select a System —</option>
+              <option>AERO-X1 Tactical UAS</option>
+              <option>ISR-9 Surveillance Platform</option>
+              <option>RAKSHA Counter-UAS</option>
+              <option>AGNI Loitering Munition</option>
+              <option>VIJAY Tactical UGV</option>
+              <option>AERO-X3 Swarm UAS</option>
+              <option>Full System Integration</option>
+              <option>Partnership / Joint Development</option>
+            </select>
+          </div>
+          <div class="fg full">
+            <label>Message</label>
+            <textarea placeholder="Describe your operational requirement or inquiry..."></textarea>
+          </div>
+          <div class="fg full">
+            <button class="btn-g" style="width:100%;justify-content:center;" type="submit">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+              Submit Request
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ FOOTER ══ -->
+<footer>
+  <div class="foot-grid">
+    <div class="fbrand">
+      <div style="display:flex;align-items:center;gap:.7rem;margin-bottom:.5rem;">
+        <svg width="32" height="32" viewBox="0 0 40 40" fill="none">
+          <path d="M20 3L35 9V20C35 28.284 28.284 35.5 20 37C11.716 35.5 5 28.284 5 20V9L20 3Z" fill="#0C1610" stroke="#9BE15D" stroke-width="1.5"/>
+          <circle cx="20" cy="20" r="3" fill="#9BE15D"/>
+          <path d="M20 14V20L24 23" stroke="#9BE15D" stroke-width="1.5" stroke-linecap="round"/>
+        </svg>
+        <span style="font-family:var(--sora);font-size:1.1rem;font-weight:800;letter-spacing:.1em;color:var(--white);">KAVACH</span>
+      </div>
+      <p>Autonomous Defence Systems. Engineered in India. Trusted by the Armed Forces. Built for the world's most demanding operational theatres.</p>
+      <div style="display:flex;align-items:center;gap:.5rem;margin-top:1.1rem;font-family:var(--mono);font-size:.72rem;letter-spacing:.14em;text-transform:uppercase;color:var(--green);">
+        <span class="dot g"></span>All Systems Operational
+      </div>
+    </div>
+    <div class="fcol">
+      <h4>Systems</h4>
+      <ul>
+        <li><a href="#products">AERO-X1 UAS</a></li>
+        <li><a href="#products">ISR-9 Platform</a></li>
+        <li><a href="#products">RAKSHA C-UAS</a></li>
+        <li><a href="#products">AGNI Munition</a></li>
+        <li><a href="#products">VIJAY UGV</a></li>
+        <li><a href="#products">AERO-X3 Swarm</a></li>
+      </ul>
+    </div>
+    <div class="fcol">
+      <h4>Company</h4>
+      <ul>
+        <li><a href="#about">About Us</a></li>
+        <li><a href="#mission">Our Mission</a></li>
+        <li><a href="#ecosystem">Ecosystem</a></li>
+        <li><a href="#partners">Partners</a></li>
+        <li><a href="#careers">Careers</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+    </div>
+    <div class="fcol">
+      <h4>Compliance</h4>
+      <ul>
+        <li><a href="#">Privacy Policy</a></li>
+        <li><a href="#">ITAR Compliance</a></li>
+        <li><a href="#">Export Controls</a></li>
+        <li><a href="#">Security Clearance</a></li>
+        <li><a href="#">MoD Registration</a></li>
+        <li><a href="#">ISO 9001:2015</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="foot-bottom">
+    <p>© 2025 KAVACH Autonomous Defence Systems Pvt. Ltd. · CIN: U72900KA2019PTC123456 · Bengaluru, India</p>
+    <p style="color:var(--muted);">ITAR Restricted · Not for Foreign National Distribution</p>
+  </div>
+</footer>
+
+<!-- ══ PRODUCT DETAIL OVERLAY ══ -->
+<div id="detail">
+  <div class="det-nav">
+    <button class="det-back" id="det-close">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="15,18 9,12 15,6"/></svg>
+      Back to Products
+    </button>
+    <div style="font-family:var(--mono);font-size:.75rem;letter-spacing:.16em;text-transform:uppercase;color:var(--muted);">KAVACH SYSTEMS · PRODUCT DETAIL</div>
+  </div>
+  <div class="det-hero" id="det-content">
+    <!-- Populated by JS -->
+  </div>
+  <div class="det-feats" id="det-feats">
+    <!-- Populated by JS -->
+  </div>
+</div>
+
+<!-- ══ JAVASCRIPT ══ -->
+<script>
+// ── Product data ──────────────────────────────────────────
+const PRODUCTS = [
+  {
+    id:'KAVACH / AERO-X1', name:'AERO-X1 Tactical UAS', code:'KV-AX1-REV4.2',
+    status:'Operational', statusClass:'op',
+    img:'https://images.unsplash.com/photo-1473968512647-3e447244af8f?w=900&q=80&auto=format&fit=crop',
+    desc:'The AERO-X1 is KAVACH\'s flagship fixed-wing VTOL unmanned aircraft system engineered for sustained deep-penetration ISR and precision strike missions in highly contested, GPS-denied environments. Combining a hybrid propulsion system with multi-spectral payload bays and an AI-driven mission computer, it delivers persistent surveillance at range.',
+    specs:[
+      {k:'Max Range',v:'120 km'},{k:'Endurance',v:'8 hours'},{k:'Max Speed',v:'180 km/h'},
+      {k:'Ceiling',v:'5,500 m MSL'},{k:'Payload Capacity',v:'12 kg'},{k:'Launch System',v:'CTOL / Catapult'},
+      {k:'Navigation',v:'GPS/INS/Optical'},{k:'Data Link',v:'Encrypted AES-256'},{k:'MTBF',v:'1,200 hrs'}
+    ],
+    hudData:[{k:'STATUS',v:'OPERATIONAL',g:true},{k:'LAST SORTIE',v:'14.07.2025'},{k:'FLIGHT HRS',v:'320+'}],
+    features:[
+      {ic:'shield',title:'GPS-Denied Navigation',desc:'Triple-redundant INS with optical flow and terrain-referenced navigation for full operations in GPS-jammed environments.'},
+      {ic:'eye',title:'Multi-Spectral Payload',desc:'Simultaneous EO, IR, and LIDAR sensor fusion with on-board AI processing for real-time object detection and classification.'},
+      {ic:'wifi',title:'Encrypted Comms',desc:'Frequency-hopping, AES-256 encrypted datalink with LOS and BLOS SATCOM relay capability.'},
+      {ic:'zap',title:'AI Target Acquisition',desc:'On-board neural network processes 60 fps sensor data to identify, classify, and track up to 32 simultaneous targets.'},
+      {ic:'layers',title:'Modular Payload Bay',desc:'Tool-free payload swap in under 90 seconds. Compatible with SIGINT, EW, strike, and logistics mission kits.'},
+      {ic:'activity',title:'Fault-Tolerant Systems',desc:'Dual-redundant flight computers with automatic fail-safe modes ensure safe return-to-base on subsystem failure.'}
+    ]
+  },
+  {
+    id:'KAVACH / ISR-9', name:'ISR-9 Surveillance Platform', code:'KV-ISR9-MK2',
+    status:'Operational', statusClass:'op',
+    img:'https://images.unsplash.com/photo-1531297484001-80022131f5a1?w=900&q=80&auto=format&fit=crop',
+    desc:'The ISR-9 is a high-altitude, long-endurance multi-sensor intelligence and surveillance platform. Designed for persistent wide-area monitoring, it fuses EO, IR, SAR, SIGINT, and COMINT data streams through an AI engine to deliver actionable battlefield intelligence to command structures in real time.',
+    specs:[
+      {k:'Sensor Suite',v:'EO/IR/SAR/SIGINT'},{k:'Image Resolution',v:'0.15 m GSD'},{k:'Area Coverage',v:'40 km² / hr'},
+      {k:'Data Link Latency',v:'< 200 ms'},{k:'Operating Altitude',v:'8,000 m MSL'},{k:'Endurance',v:'16 hours'},
+      {k:'AI Processing',v:'On-board NVIDIA'},{k:'Storage',v:'4 TB encrypted'},{k:'Transmission',v:'SATCOM / LOS'}
+    ],
+    hudData:[{k:'STATUS',v:'OPERATIONAL',g:true},{k:'SENSORS',v:'ALL ACTIVE'},{k:'COVERAGE',v:'WIDE AREA'}],
+    features:[
+      {ic:'eye',title:'Multi-Sensor Fusion',desc:'Simultaneous processing of EO, IR, SAR, and SIGINT streams through a unified AI intelligence engine.'},
+      {ic:'cpu',title:'On-Board AI Processing',desc:'NVIDIA-based edge compute platform processes raw sensor data in-flight, delivering analysed intelligence — not raw feeds.'},
+      {ic:'radio',title:'SIGINT Collection',desc:'Passive RF collection across 20 MHz–18 GHz with automated signal classification and emitter geolocation.'},
+      {ic:'map',title:'Wide-Area Persistence',desc:'Single platform can provide 24/7 coverage of a 200 km² area of interest with automatic change detection alerts.'},
+      {ic:'lock',title:'Quantum-Safe Comms',desc:'Future-proofed with post-quantum cryptography for data-in-transit, resistant to next-generation decryption threats.'},
+      {ic:'server',title:'Ground Station Integration',desc:'Fully compatible with existing C2 systems including BMS, CIDSS, and NATO STANAG 4586 compliant GCS.'}
+    ]
+  },
+  {
+    id:'KAVACH / RAKSHA', name:'RAKSHA Counter-UAS System', code:'KV-CUAS-R3',
+    status:'Operational', statusClass:'op',
+    img:'https://images.unsplash.com/photo-1518770660439-4636190af475?w=900&q=80&auto=format&fit=crop',
+    desc:'RAKSHA is a layered counter-unmanned aircraft system designed to protect critical infrastructure, forward operating bases, and high-value assets from drone threats. Combining passive RF detection, active radar, optical tracking, and directed-energy neutralisation in a single integrated system.',
+    specs:[
+      {k:'Detection Range',v:'10 km (RF)'},{k:'Tracking Range',v:'7 km (Optical)'},{k:'Neutralisation',v:'5 km (Hard Kill)'},
+      {k:'Reaction Time',v:'< 3 seconds'},{k:'Simultaneous Tracks',v:'64 targets'},{k:'Frequency Coverage',v:'20 MHz–18 GHz'},
+      {k:'Neutralisation Methods',v:'RF Jam / DEW / KE'},{k:'Setup Time',v:'< 30 min'},{k:'Power',v:'Self-contained'}
+    ],
+    hudData:[{k:'STATUS',v:'ACTIVE DEFENCE',g:true},{k:'THREATS TRACKED',v:'0'},{k:'COVERAGE',v:'360°'}],
+    features:[
+      {ic:'radio',title:'Passive RF Detection',desc:'Wide-band RF receiver identifies drone control signals, video feeds, and telemetry across all commercial and military frequencies.'},
+      {ic:'target',title:'Active Radar Tracking',desc:'3D pulse-Doppler radar tracks micro-UAS with RCS as small as 0.001 m² at ranges up to 10 km.'},
+      {ic:'zap',title:'Directed Energy Neutralisation',desc:'High-power microwave and laser dazzler systems defeat drone electronics without kinetic collateral damage risk.'},
+      {ic:'wifi',title:'RF Jamming',desc:'Targeted narrow-band jamming disrupts drone command links and GPS navigation without affecting friendly comms.'},
+      {ic:'shield',title:'Layered Kill Chain',desc:'Soft-kill RF jamming as first response, hard-kill interceptor as backup — maximising neutralisation probability.'},
+      {ic:'monitor',title:'Unified Command Console',desc:'Single operator interface manages detection, classification, threat assessment, and engagement authorisation.'}
+    ]
+  },
+  {
+    id:'KAVACH / AGNI-LM', name:'AGNI Loitering Munition', code:'KV-LM-A2-DEV',
+    status:'Dev. Phase', statusClass:'dv',
+    img:'https://images.unsplash.com/photo-1504711434969-e33886168f5c?w=900&q=80&auto=format&fit=crop',
+    desc:'AGNI is a precision loitering munition with man-in-the-loop engagement control. Designed for standoff strike missions, it loiters over the target area, confirms the target with operator authorisation, and executes terminal guidance with sub-metre precision — with abort capability available until final engagement initiation.',
+    specs:[
+      {k:'Loiter Time',v:'45 minutes'},{k:'Strike CEP',v:'0.5 m'},{k:'Warhead',v:'4 kg EFP'},
+      {k:'Launch System',v:'Tube / Rail'},{k:'Operating Range',v:'80 km'},{k:'Guidance',v:'INS/EO/AI Terminal'},
+      {k:'Abort Capability',v:'Up to 2 m'},{k:'Launch Crew',v:'2 operators'},{k:'MTTR',v:'< 10 min'}
+    ],
+    hudData:[{k:'STATUS',v:'DEVELOPMENT',g:false},{k:'READINESS',v:'2026 Q1'},{k:'TESTING',v:'LIVE TRIALS'}],
+    features:[
+      {ic:'target',title:'Man-in-the-Loop Control',desc:'Operator maintains engagement authority until final terminal phase — ensuring IHL compliance and collateral damage minimisation.'},
+      {ic:'eye',title:'AI Target Confirmation',desc:'On-board neural network cross-references target with pre-loaded profile and operator confirmation before committing to strike.'},
+      {ic:'shield',title:'Abort-at-Will',desc:'Full abort and loiter-recovery capability until 2 m from target — the industry\'s lowest abort decision altitude.'},
+      {ic:'zap',title:'EFP Warhead',desc:'Explosively Formed Penetrator warhead with directional shaping optimised for armoured vehicle, radar, and C2 node defeat.'},
+      {ic:'radio',title:'Encrypted Datalink',desc:'Two-way AES-256 encrypted datalink for real-time video feed and operator command — resistant to electronic jamming.'},
+      {ic:'layers',title:'Multi-Platform Launch',desc:'Canister-based system launches from vehicles, vessels, aircraft, or fixed ground installations without specialised equipment.'}
+    ]
+  },
+  {
+    id:'KAVACH / VIJAY-UGV', name:'VIJAY Tactical Ground Robot', code:'KV-UGV-V3',
+    status:'Operational', statusClass:'op',
+    img:'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=900&q=80&auto=format&fit=crop',
+    desc:'The VIJAY is a multi-mission unmanned ground vehicle built for the most demanding tactical environments. From CBRN reconnaissance to EOD support, explosive ordnance disposal, and forward logistics resupply, VIJAY operates with full autonomous navigation or remote override — keeping soldiers away from danger.',
+    specs:[
+      {k:'Max Speed',v:'25 km/h'},{k:'Payload Capacity',v:'80 kg'},{k:'Terrain',v:'All-surface tracked'},
+      {k:'Endurance',v:'12 hours'},{k:'Communication',v:'Encrypted RF + 4G LTE'},{k:'Control Range',v:'5 km LOS'},
+      {k:'Sensor Suite',v:'EO/IR/LIDAR'},{k:'Mission Modes',v:'Autonomous / Tele-op'},{k:'Weight',v:'320 kg (empty)'}
+    ],
+    hudData:[{k:'STATUS',v:'OPERATIONAL',g:true},{k:'TERRAIN',v:'ALL CONDITIONS'},{k:'MISSION MODE',v:'AUTONOMOUS'}],
+    features:[
+      {ic:'navigation',title:'All-Terrain Autonomy',desc:'LIDAR-based SLAM navigation with terrain classification enables fully autonomous ops in jungle, urban, and desert environments.'},
+      {ic:'shield',title:'CBRN Reconnaissance',desc:'NBC sensor suite with air sampling, radiation detection, and chemical agent identification for hazardous area assessment.'},
+      {ic:'tool',title:'EOD Manipulator Arm',desc:'6-DOF manipulator with force feedback, 30 kg lift capacity, and precision gripper for IED neutralisation and object retrieval.'},
+      {ic:'package',title:'Logistics Resupply',desc:'80 kg payload deck with quick-release mounting system for ammunition, medical, and water resupply to forward positions.'},
+      {ic:'eye',title:'Day/Night ISR',desc:'Stabilised dual EO/IR camera turret with 30x optical zoom provides persistent surveillance from a safe standoff distance.'},
+      {ic:'wifi',title:'Secure Tele-Operation',desc:'Low-latency encrypted video and control link enables full tele-op fallback when autonomous navigation is not appropriate.'}
+    ]
+  },
+  {
+    id:'KAVACH / AERO-X3', name:'AERO-X3 Swarm UAS', code:'KV-SW-X3-DEV',
+    status:'Dev. Phase', statusClass:'dv',
+    img:'https://images.unsplash.com/photo-1579829366248-204fe8413f31?w=900&q=80&auto=format&fit=crop',
+    desc:'The AERO-X3 is KAVACH\'s next-generation swarm drone platform. A single operator can deploy up to 50 coordinated autonomous UAS for simultaneous ISR blanketing or saturation attack missions. The decentralised AI swarm intelligence means no single platform is a mission-critical dependency.',
+    specs:[
+      {k:'Swarm Size',v:'Up to 50 units'},{k:'Coordination Range',v:'5 km'},{k:'Individual Endurance',v:'35 min'},
+      {k:'Launch Time',v:'< 5 min (50 units)'},{k:'AI Architecture',v:'Decentralised'},{k:'Individual Weight',v:'2.8 kg'},
+      {k:'Payload per Unit',v:'500 g'},{k:'Navigation',v:'GPS + Visual SLAM'},{k:'Comms',v:'Mesh encrypted'}
+    ],
+    hudData:[{k:'STATUS',v:'DEVELOPMENT',g:false},{k:'READINESS',v:'2026 Q3'},{k:'SWARM AI',v:'ACTIVE TRIALS'}],
+    features:[
+      {ic:'cpu',title:'Decentralised Swarm AI',desc:'No central controller — each drone runs its own AI that communicates peer-to-peer, eliminating single points of failure.'},
+      {ic:'zap',title:'Saturation Attack Mode',desc:'Coordinated simultaneous multi-vector attack on a single target overwhelms point-defence systems through sheer volume.'},
+      {ic:'eye',title:'Area Saturation ISR',desc:'50-drone swarm blankets 10 km² with overlapping sensor coverage, building a real-time 3D map of the target area.'},
+      {ic:'layers',title:'Self-Healing Formation',desc:'When a swarm member is lost, the remaining drones automatically rebalance coverage and mission assignments.'},
+      {ic:'radio',title:'Encrypted Mesh Network',desc:'Each drone is a mesh node — the swarm maintains communication even when individual members are jammed or destroyed.'},
+      {ic:'package',title:'Rapid Deployment System',desc:'Purpose-built launcher deploys 50 drones in under 5 minutes from a single vehicle-mounted containerised system.'}
+    ]
+  }
+];
+
+// ── Navigation sticky ─────────────────────────────────────
+const nav = document.getElementById('nav');
+window.addEventListener('scroll', () => {
+  nav.classList.toggle('stuck', window.scrollY > 60);
+});
+
+// ── Mobile menu ───────────────────────────────────────────
+document.getElementById('ham-btn').addEventListener('click', () => {
+  document.getElementById('mob').classList.add('open');
+  document.body.style.overflow = 'hidden';
+});
+document.getElementById('mob-close').addEventListener('click', () => {
+  document.getElementById('mob').classList.remove('open');
+  document.body.style.overflow = '';
+});
+document.querySelectorAll('#mob a').forEach(a => {
+  a.addEventListener('click', () => {
+    document.getElementById('mob').classList.remove('open');
+    document.body.style.overflow = '';
+  });
+});
+
+// ── Scroll reveal ─────────────────────────────────────────
+const rvObs = new IntersectionObserver((entries) => {
+  entries.forEach(e => { if(e.isIntersecting){ e.target.classList.add('on'); rvObs.unobserve(e.target); } });
+}, { threshold: 0.12 });
+document.querySelectorAll('.rv, .rl, .rr').forEach(el => rvObs.observe(el));
+
+// ── Live clock ────────────────────────────────────────────
+function tick(){
+  const el = document.getElementById('sys-clock');
+  if(!el) return;
+  const n = new Date();
+  const pad = v => String(v).padStart(2,'0');
+  el.textContent = `${pad(n.getUTCHours())}:${pad(n.getUTCMinutes())}:${pad(n.getUTCSeconds())} UTC`;
+}
+tick(); setInterval(tick, 1000);
+
+// ── Counter animation ─────────────────────────────────────
+const ctrObs = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if(!e.isIntersecting) return;
+    const el = e.target;
+    const target = +el.dataset.target;
+    const suffix = el.dataset.suffix || '';
+    let start = 0;
+    const dur = 1800;
+    const step = timestamp => {
+      if(!start) start = timestamp;
+      const p = Math.min((timestamp - start) / dur, 1);
+      const ease = 1 - Math.pow(1 - p, 3);
+      el.textContent = Math.round(ease * target) + suffix;
+      if(p < 1) requestAnimationFrame(step);
+    };
+    requestAnimationFrame(step);
+    ctrObs.unobserve(el);
+  });
+}, { threshold: 0.5 });
+document.querySelectorAll('.counter').forEach(el => ctrObs.observe(el));
+
+// ── Product filter ────────────────────────────────────────
+document.querySelectorAll('.fb').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.fb').forEach(b => b.classList.remove('on'));
+    btn.classList.add('on');
+    const cat = btn.dataset.cat;
+    document.querySelectorAll('.pc').forEach(card => {
+      if(cat === 'all' || card.dataset.cat === cat){
+        card.classList.remove('hidden');
+      } else {
+        card.classList.add('hidden');
+      }
+    });
+  });
+});
+
+// ── Product detail overlay ────────────────────────────────
+function openProduct(idx){
+  const p = PRODUCTS[idx];
+  const statusColor = p.statusClass === 'op' ? 'var(--green)' : 'var(--amber)';
+
+  const hudRows = p.hudData.map(r =>
+    `<div class="drow"><span class="dk">${r.k}</span><span class="dv${r.g?' g':''}">${r.v}</span></div>`
+  ).join('');
+
+  const specs = p.specs.map(s =>
+    `<div class="dspec"><div class="k">${s.k}</div><div class="v">${s.v}</div></div>`
+  ).join('');
+
+  const feats = p.features.map(f => `
+    <div class="feat">
+      <div class="feat-ic">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="20" height="20">
+          <circle cx="12" cy="12" r="10"/>
+        </svg>
+      </div>
+      <h4>${f.title}</h4>
+      <p>${f.desc}</p>
+    </div>`
+  ).join('');
+
+  document.getElementById('det-content').innerHTML = `
+    <div class="det-img-wrap">
+      <img src="${p.img}" alt="${p.name}"/>
+      <div class="det-img-ol"></div>
+      <div class="det-hud-ol">${hudRows}</div>
+    </div>
+    <div>
+      <div style="font-family:var(--mono);font-size:.78rem;letter-spacing:.18em;text-transform:uppercase;color:${statusColor};margin-bottom:.7rem;">${p.status}</div>
+      <div class="det-name">${p.name}</div>
+      <div class="det-code">${p.code}</div>
+      <p class="det-desc">${p.desc}</p>
+      <div class="det-spec-grid">${specs}</div>
+      <a href="#contact" class="btn-g" id="det-brief-btn">Request Briefing →</a>
+    </div>`;
+
+  document.getElementById('det-feats').innerHTML = `<h3>System Capabilities</h3><div class="feat-grid">${feats}</div>`;
+
+  const det = document.getElementById('detail');
+  det.classList.add('open');
+  det.scrollTop = 0;
+  document.body.style.overflow = 'hidden';
+
+  // Push a history entry so the browser back button closes the overlay
+  history.pushState({ detailOpen: true, idx }, '', '#product-' + idx);
+
+  document.getElementById('det-brief-btn').addEventListener('click', () => closeDetail());
+}
+
+function closeDetail(){
+  document.getElementById('detail').classList.remove('open');
+  document.body.style.overflow = '';
+  // Only pop state if we're currently on a product hash — avoid double-pop
+  if(location.hash.startsWith('#product-')){
+    history.pushState(null, '', location.pathname);
+  }
+}
+
+// ── Browser back button closes the overlay ────────────────
+window.addEventListener('popstate', e => {
+  if(document.getElementById('detail').classList.contains('open')){
+    document.getElementById('detail').classList.remove('open');
+    document.body.style.overflow = '';
+  }
+});
+
+document.getElementById('det-close').addEventListener('click', closeDetail);
+
+document.querySelectorAll('.pc').forEach(card => {
+  card.addEventListener('click', () => openProduct(+card.dataset.id));
+});
+
+// ── Keyboard ESC to close detail ─────────────────────────
+document.addEventListener('keydown', e => {
+  if(e.key === 'Escape'){
+    closeDetail();
+    document.getElementById('mob').classList.remove('open');
+    document.body.style.overflow = '';
+  }
+});
+</script>
+</body>
+</html>
